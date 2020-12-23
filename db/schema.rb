@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_160056) do
+ActiveRecord::Schema.define(version: 2020_12_23_160342) do
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
@@ -26,6 +26,11 @@ ActiveRecord::Schema.define(version: 2020_12_23_160056) do
     t.boolean "current"
     t.integer "client_id"
     t.integer "vhs_id"
+  end
+
+  create_table "vhs", force: :cascade do |t|
+    t.string "serial_number"
+    t.integer "movie_id"
   end
 
 end

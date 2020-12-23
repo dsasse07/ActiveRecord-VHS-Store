@@ -1,12 +1,12 @@
 MovieGenre.destroy_all
 Rental.destroy_all
-# Vhs.destroy_all
+Vhs.destroy_all
 Client.destroy_all
 # Genre.destroy_all
 # Movie.destroy_all
 MovieGenre.reset_pk_sequence
 Rental.reset_pk_sequence
-# Vhs.reset_pk_sequence
+Vhs.reset_pk_sequence
 Client.reset_pk_sequence
 # Genre.reset_pk_sequence
 # Movie.reset_pk_sequence
