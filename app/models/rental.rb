@@ -9,8 +9,15 @@ class Rental < ActiveRecord::Base
 
     def self.past_due_date
         self.all.select do |rental| 
-            (rental.current == true && rental.due_date < DateTime.now) || (rental.current == false && rental.due_date < rental.updated_at)
+            rental.past_due? || rental.returned_late?
         end
-        binding.pry
+    end
+
+    def past_due?
+        self.current == true && self.due_date < DateTime.now
+    end
+
+    def returned_late?
+        self.current == false && self.due_date < self.updated_at
     end
 end
