@@ -10,20 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_161219) do
+ActiveRecord::Schema.define(version: 2020_12_23_163244) do
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "home_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "genres", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "movie_genres", force: :cascade do |t|
     t.integer "movie_id"
     t.integer "genre_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "movies", force: :cascade do |t|
@@ -33,17 +39,23 @@ ActiveRecord::Schema.define(version: 2020_12_23_161219) do
     t.string "director"
     t.string "description"
     t.boolean "female_director"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "rentals", force: :cascade do |t|
     t.boolean "current"
     t.integer "client_id"
     t.integer "vhs_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "vhs", force: :cascade do |t|
     t.string "serial_number"
     t.integer "movie_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
