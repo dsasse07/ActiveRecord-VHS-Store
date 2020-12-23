@@ -5,6 +5,16 @@ class Vhs < ActiveRecord::Base
 
     after_initialize :add_serial_number
 
+    # movie_hash = {title: "Greenland", year: 2020, length: 120, director: "Rick Waugh", description: "End of the world as we know it", female_director: false}
+    
+    def self.hot_from_the_press(movie_hash, genre_name)
+        movie = Movie.create(movie_hash)
+        genre = Genre.find_or_create_by(name: genre_name)
+        movie.genres << genre
+        3.times {Vhs.create(movie_id: movie.id)}
+    end
+
+
     def is_available_to_rent?
         Rental.find_by(vhs_id: self.id, current: false)
     end
