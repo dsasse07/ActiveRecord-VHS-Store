@@ -13,7 +13,7 @@ class Client < ActiveRecord::Base
         Rental.create(vhs_id: available_copy.id , client_id: new_client.id, current: true)
     end
 
-    def num_of_rentals
+    def num_of_returned_rentals
         Rental.where(client_id: self.id, current: false).count
     end
 
@@ -21,6 +21,18 @@ class Client < ActiveRecord::Base
         #get all of the clients
         #get a count of how many rental instances have their client_id
         #order them by highest number of rentals returned, and then return the top 5.
-        self.all.each_with_object({}) { |client, hash| hash[client] = client.num_of_rentals }.sort_by(&:last).pop(5)
+        self.all.each_with_object({}) { |client, hash| hash[client] = client.num_of_returned_rentals }.sort_by(&:last).pop(5)
     end
+
+    # refactor later
+    def favorite_genre
+        genres_hash = {}
+        self.rentals.each do |rental| 
+            rental.vhs.movie.movie_genres.each do |movie_genre|
+                genres_hash[movie_genre.genre.name].nil? ? genres_hash[movie_genre.genre.name] = 1 : genres_hash[movie_genre.genre.name] += 1 
+            end
+        end
+        genres_hash.max_by(&:last)
+    end
+
 end
