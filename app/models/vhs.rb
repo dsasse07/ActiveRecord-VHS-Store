@@ -23,6 +23,21 @@ class Vhs < ActiveRecord::Base
         !Rental.find_by(vhs_id: self.id).nil?
     end
 
+    def self.most_used
+        vhs_hash = {}
+        Rental.all.each do |rental| 
+            vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
+        end
+        binding.pry
+        top_three = vhs_hash.sort_by(&:last).pop(3)
+
+        top_three.each do |vhs_pair|
+            vhs = vhs_pair[0]
+            puts "serial number: #{vhs.serial_number} | title: #{vhs.movie.title}"
+        end
+    end
+
+
     private
 
     # generates serial number based on the title
