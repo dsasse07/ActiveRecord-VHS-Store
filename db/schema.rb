@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_23_155550) do
+ActiveRecord::Schema.define(version: 2020_12_23_160056) do
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,12 @@ ActiveRecord::Schema.define(version: 2020_12_23_155550) do
   create_table "movie_genres", force: :cascade do |t|
     t.integer "movie_id"
     t.integer "genre_id"
+  end
+
+  create_table "rentals", force: :cascade do |t|
+    t.boolean "current"
+    t.integer "client_id"
+    t.integer "vhs_id"
   end
 
 end
