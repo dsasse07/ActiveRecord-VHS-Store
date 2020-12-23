@@ -1,10 +1,10 @@
-# MovieGenre.destroy_all
+MovieGenre.destroy_all
 # Rental.destroy_all
 # Vhs.destroy_all
 Client.destroy_all
 # Genre.destroy_all
 # Movie.destroy_all
-# MovieGenre.reset_pk_sequence
+MovieGenre.reset_pk_sequence
 # Rental.reset_pk_sequence
 # Vhs.reset_pk_sequence
 Client.reset_pk_sequence
@@ -12,9 +12,9 @@ Client.reset_pk_sequence
 # Movie.reset_pk_sequence
 
 
-def create_movie_joins(movie, genre_array)
-    genre_array.each{|genre| MovieGenre.create(movie_id: movie.id, genre_id: genre.id)}
-end
+# def create_movie_joins(movie, genre_array)
+#     genre_array.each{|genre| MovieGenre.create(movie_id: movie.id, genre_id: genre.id)}
+# end
 
 ####### GENRES ########
 puts "✨ creating genres... ✨"
@@ -177,20 +177,20 @@ puts "✨ creating movies and movie_genres... ✨"
 ####### CLIENTS ########
 puts "✨ creating clients... ✨"
 
-# 20.times do 
-#     name = [
-#         Faker::Movies::HitchhikersGuideToTheGalaxy.character, 
-#         Faker::TvShows::TwinPeaks.character,
-#         Faker::TvShows::TheFreshPrinceOfBelAir.character,
-#         Faker::TvShows::RuPaul.queen,
-#         Faker::BossaNova.artist
-#     ].sample
-#     puts "🍿 #{name}, welcome to our sick vhs store!"
-#     Client.create(
-#         name: name, 
-#         home_address: Faker::Address.full_address
-#     )
-# end
+20.times do 
+    name = [
+        Faker::Movies::HitchhikersGuideToTheGalaxy.character, 
+        Faker::TvShows::TwinPeaks.character,
+        Faker::TvShows::TheFreshPrinceOfBelAir.character,
+        Faker::TvShows::RuPaul.queen,
+        Faker::BossaNova.artist
+    ].sample
+    puts "🍿 #{name}, welcome to our sick vhs store!"
+    Client.create(
+        name: name, 
+        home_address: Faker::Address.full_address
+    )
+end
 
 ####### VHS ########
 puts "✨ creating vhs... ✨"
