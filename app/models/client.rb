@@ -57,4 +57,8 @@ class Client < ActiveRecord::Base
     def late_movies
         self.rentals.select{|rental| rental.returned_late?}
     end
+
+    def self.total_watch_time
+        Rental.all.sum{|rental| rental.vhs.movie.length}
+    end
 end
