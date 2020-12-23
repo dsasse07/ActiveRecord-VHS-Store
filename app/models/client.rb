@@ -50,8 +50,7 @@ class Client < ActiveRecord::Base
             total_spent = rented_movies_fees + late_movies_fees
             client_spending_hash[client] = total_spent
         end
-        c_spend_h.max_by(&:last)
-        binding.pry
+        client_spending_hash.max_by(&:last)
     end
 
     def late_movies
@@ -60,5 +59,14 @@ class Client < ActiveRecord::Base
 
     def self.total_watch_time
         Rental.all.sum{|rental| rental.vhs.movie.length}
+    end
+
+    def return_one(vhs_par)
+        #get the rental id from vhs_par
+        #rental.where vhs_id == vhs_par.id
+        #store above in a variable
+        #.update on variable to change current: to false
+        rental = Rental.find_by(client_id: self.id, vhs_id: vhs_par.id, current: true)
+        rental.update(current: false)
     end
 end
