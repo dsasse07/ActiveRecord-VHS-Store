@@ -42,4 +42,19 @@ class Client < ActiveRecord::Base
         end
     end
 
+    def self.paid_most
+        client_spending_hash = {}
+        self.all.each do |client| 
+            rented_movies_fees = (client.rentals.count * 5.35).round(2)
+            late_movies_fees = (client.late_movies.count * 12.00).round(2)
+            total_spent = rented_movies_fees + late_movies_fees
+            client_spending_hash[client] = total_spent
+        end
+        c_spend_h.max_by(&:last)
+        binding.pry
+    end
+
+    def late_movies
+        self.rentals.select{|rental| rental.returned_late?}
+    end
 end
