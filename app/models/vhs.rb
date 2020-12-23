@@ -5,6 +5,13 @@ class Vhs < ActiveRecord::Base
 
     after_initialize :add_serial_number
 
+    def is_available_to_rent?
+        Rental.find_by(vhs_id: self.id, current: false)
+    end
+
+    def ever_rented?
+        !Rental.find_by(vhs_id: self.id).nil?
+    end
 
     private
 
