@@ -37,6 +37,26 @@ class Vhs < ActiveRecord::Base
         end
     end
 
+    def self.all_genres
+        genres_hash = self.count_genres
+        genres_hash.keys
+    end
+
+    ###HOW CAN WE USE THIS FOR CLIENT.FAV GENRE?####
+    def self.count_genres
+        genres_hash = {}
+        self.all.map do |vhs| 
+            vhs.movie.genres.each do |genre|
+                genres_hash[genre.name].nil? ? genres_hash[genre.name] = 1 : genres_hash[genre.name] += 1 
+            end
+        end
+        genres_hash
+    end
+
+    def self.available_now
+
+    end
+
 
     private
 
