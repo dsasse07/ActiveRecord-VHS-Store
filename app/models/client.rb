@@ -35,4 +35,11 @@ class Client < ActiveRecord::Base
         genres_hash.max_by(&:last)
     end
 
+    def self.non_grata
+        self.all.select do |client|
+            binding.pry 
+            client.rentals.any? { |rental| rental.returned_late? || rental.past_due? }
+        end
+    end
+
 end
