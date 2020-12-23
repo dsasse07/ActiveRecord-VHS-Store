@@ -69,4 +69,19 @@ class Client < ActiveRecord::Base
         rental = Rental.find_by(client_id: self.id, vhs_id: vhs_par.id, current: true)
         rental.update(current: false)
     end
+
+    def active_rentals
+        self.rentals.select {|rental| rental.current == true}
+    end
+
+    def return_all
+        self.active_rentals.map {|rental| rental.update(current: false)}
+    end
+
+    def last_return
+        self.return_all
+        client = Client.find(self.id)
+        client.destroy
+    end
+
 end
