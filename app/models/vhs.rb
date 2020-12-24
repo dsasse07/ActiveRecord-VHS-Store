@@ -23,12 +23,20 @@ class Vhs < ActiveRecord::Base
         !Rental.find_by(vhs_id: self.id).nil?
     end
 
-    def self.most_used
-        vhs_hash = {}
-        Rental.all.each do |rental| 
+    def self.count_vhs_by_rentals
+        Rental.all.each_with_object({}) do |rental, vhs_hash| 
             vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
         end
-        binding.pry
+    end
+
+    def self.count_vhs_by_client
+        Rental.all.each_with_object({}) do |rental, vhs_hash| 
+            vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
+        end
+    end
+
+    def self.most_used
+        vhs_hash = self.count_vhs_by_rentals
         top_three = vhs_hash.sort_by(&:last).pop(3)
 
         top_three.each do |vhs_pair|
