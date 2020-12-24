@@ -54,7 +54,11 @@ class Vhs < ActiveRecord::Base
     end
 
     def self.available_now
-
+        # Rental list and remove vhs_id where current:true
+        #return all of the vhs
+        active_tapes = Rental.where(current: true).map(&:vhs)
+        remaining_tapes = self.all.select{|tape| !active_tapes.include?(tape)}
+        binding.pry
     end
 
 
