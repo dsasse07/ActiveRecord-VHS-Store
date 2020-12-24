@@ -59,7 +59,7 @@ class Vhs < ActiveRecord::Base
         binding.pry
     end
 
-
+    
     private
 
     # generates serial number based on the title

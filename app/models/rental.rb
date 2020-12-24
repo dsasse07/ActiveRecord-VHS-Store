@@ -22,4 +22,14 @@ class Rental < ActiveRecord::Base
     def returned_late?
         self.current == false && self.due_date < self.updated_at
     end
+
+############################## Used in seeds.rb fix ###################################
+    def self.count_by_vhs_id
+        Rental.all.each_with_object({}) do |rental, count_by_vhs| 
+            count_by_vhs[rental.vhs.id].nil? ? count_by_vhs[rental.vhs.id] = 1 : count_by_vhs[rental.vhs.id] += 1 
+        end
+    end
+#######################################################################################
+    
+
 end
