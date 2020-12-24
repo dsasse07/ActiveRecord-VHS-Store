@@ -17,12 +17,25 @@ class Movie < ActiveRecord::Base
         movies_hash.max_by {|movie, client_count| client_count}[0]
     end
 
+
+
     def self.most_rentals
+        self.movies_by_client_number.sort_by(&:last).pop(3).to_h.keys
+    end
+
+    def self.most_popular_female_director
+        female_director_movies = Movie.where(female_director: true)
+        rental_count = female_director_movies.each_with_object ({}) do |movie, rental_count|
+            rental_count[movie] = movie.rentals.count
+        end
+        rental_count.max_by(&:last)[0].director
+    end
+    
+    def self.movies_by_client_number
         vhs_hash = Vhs.count_vhs_by_client
         movie_by_client_count = vhs_hash.each_with_object({}) do |(vhs, times_rented), movie_hash|
                 movie_hash[vhs.movie].nil? ? movie_hash[vhs.movie] = times_rented : movie_hash[vhs.movie] += times_rented
         end
-        movie_by_client_count.sort_by(&:last).pop(3).to_h.keys
     end
-    
+
 end
