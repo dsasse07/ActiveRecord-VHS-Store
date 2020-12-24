@@ -56,7 +56,6 @@ class Vhs < ActiveRecord::Base
     def self.available_now
         active_tapes = Rental.where(current: true).map(&:vhs)
         remaining_tapes = self.all.select{|tape| !active_tapes.include?(tape)}
-        binding.pry
     end
 
     
