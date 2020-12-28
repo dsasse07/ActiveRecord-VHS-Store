@@ -1,7 +1,12 @@
+require_relative '../tools/generic_helpers'
+
 class Vhs < ActiveRecord::Base
     has_many :rentals
     has_many :clients, through: :rentals
     belongs_to :movie
+
+    extend GenericHelpers
+    include GenericHelpers
 
     after_initialize :add_serial_number
 
@@ -23,16 +28,26 @@ class Vhs < ActiveRecord::Base
         !Rental.find_by(vhs_id: self.id).nil?
     end
 
+    #Original
+    #def
+        #Rental.all.each_with_object({}) do |rental, vhs_hash| 
+            #vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
+        #end
+    #end 
+
     def self.count_vhs_by_rentals
-        Rental.all.each_with_object({}) do |rental, vhs_hash| 
-            vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
-        end
+        make_hash_by_attribute(Rental.all, "vhs")
     end
 
+    #Original
+    # def self.count_vhs_by_client
+    #     Rental.all.each_with_object({}) do |rental, vhs_hash| 
+    #         vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
+    #     end
+    # end
+
     def self.count_vhs_by_client
-        Rental.all.each_with_object({}) do |rental, vhs_hash| 
-            vhs_hash[rental.vhs].nil? ? vhs_hash[rental.vhs] = 1 : vhs_hash[rental.vhs] += 1 
-        end
+        make_hash_by_attribute(Rental.all, "client")
     end
 
     def self.most_used

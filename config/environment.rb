@@ -15,3 +15,4 @@ ActiveSupport::Inflector.inflections do |inflect|
 end
 
 require_all 'app'
+require_all 'app/tools'

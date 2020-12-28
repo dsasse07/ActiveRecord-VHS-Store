@@ -1,7 +1,10 @@
+require_relative '../tools/generic_helpers'
+
 class Client < ActiveRecord::Base
     has_many :rentals
     has_many :vhs, through: :rentals
 
+    include GenericHelpers
 
     #Client.first_rental({name: "bob", home_address: "33 road av"}, "The Color Purple")
 
@@ -18,21 +21,27 @@ class Client < ActiveRecord::Base
     end
 
     def self.most_active
-        #get all of the clients
-        #get a count of how many rental instances have their client_id
-        #order them by highest number of rentals returned, and then return the top 5.
         self.all.each_with_object({}) { |client, hash| hash[client] = client.num_of_returned_rentals }.sort_by(&:last).pop(5)
     end
 
-    # refactor later
+    # original
+    # def favorite_genre
+    #     genres_hash = {}
+    #     self.rentals.each do |rental| 
+    #         rental.vhs.movie.genres.each do |genre|
+    #             genres_hash[genre.name].nil? ? genres_hash[genre.name] = 1 : genres_hash[genre.name] += 1 
+    #         end
+    #     end
+    #     genres_hash.max_by(&:last)
+    # end
+
+    #refactored above method
     def favorite_genre
-        genres_hash = {}
-        self.rentals.each do |rental| 
-            rental.vhs.movie.movie_genres.each do |movie_genre|
-                genres_hash[movie_genre.genre.name].nil? ? genres_hash[movie_genre.genre.name] = 1 : genres_hash[movie_genre.genre.name] += 1 
-            end
+        final_hash = self.rentals.each_with_object({}) do |rental, final_hash| 
+            temporary_hash = make_hash_by_attribute(rental.vhs.movie.genres, "name")
+            final_hash.merge!(temporary_hash) {|key, oldval, newval| newval + oldval}
         end
-        genres_hash.max_by(&:last)
+        final_hash.max_by(&:last)
     end
 
     def self.non_grata
@@ -43,14 +52,13 @@ class Client < ActiveRecord::Base
     end
 
     def self.paid_most
-        client_spending_hash = {}
-        self.all.each do |client| 
+        spending_hash = self.all.each_with_object do |client, spending_hash| 
             rented_movies_fees = (client.rentals.count * 5.35).round(2)
             late_movies_fees = (client.late_movies.count * 12.00).round(2)
             total_spent = rented_movies_fees + late_movies_fees
-            client_spending_hash[client] = total_spent
+            spending_hash[client] = total_spent
         end
-        client_spending_hash.max_by(&:last)
+        spending_hash.max_by(&:last)
     end
 
     def late_movies
@@ -62,10 +70,6 @@ class Client < ActiveRecord::Base
     end
 
     def return_one(vhs_par)
-        #get the rental id from vhs_par
-        #rental.where vhs_id == vhs_par.id
-        #store above in a variable
-        #.update on variable to change current: to false
         rental = Rental.find_by(client_id: self.id, vhs_id: vhs_par.id, current: true)
         rental.update(current: false)
     end

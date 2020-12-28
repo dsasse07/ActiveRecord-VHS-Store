@@ -1,3 +1,5 @@
+require_relative '../tools/generic_helpers'
+
 class Rental < ActiveRecord::Base 
     belongs_to :client
     belongs_to :vhs
