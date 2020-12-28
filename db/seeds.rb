@@ -280,5 +280,7 @@ returned_late_number.times do
     rental.update(current: false,  created_at: rented_date, updated_at: returned_date)
 end
 
+Genre.create(name: "apocalypse")
+
 
 puts "📼 📼 📼 📼 SEEDED 📼 📼 📼 📼 "
