@@ -53,5 +53,9 @@ class Movie < ActiveRecord::Base
         puts "Director: #{self.director}"
         puts "Released in: #{self.year}"
     end
+    
+    def self.surprise_me
+        puts Movie.all.sample.recommendation
+    end
 
 end
