@@ -58,4 +58,9 @@ class Movie < ActiveRecord::Base
         puts Movie.all.sample.recommendation
     end
 
+    def report_stolen
+        vhs_to_delete = Vhs.available_now.find{|vhs| vhs.movie_id == self.id}
+        vhs_to_delete.destroy
+        puts "THANK YOU FOR YOUR REPORT. WE WILL LAUNCH AN INVESTIGATION."
+    end
 end
