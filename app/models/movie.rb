@@ -38,4 +38,20 @@ class Movie < ActiveRecord::Base
         end
     end
 
+    def self.newest_first
+        self.order(year: :desc)
+    end
+
+    def self.longest
+        self.order(length: :desc)
+    end
+
+    def recommendation
+        puts Faker::SlackEmoji.emoji.emoji + " " + self.title
+        puts "Description: #{self.description}"
+        puts "Length: #{self.length}"
+        puts "Director: #{self.director}"
+        puts "Released in: #{self.year}"
+    end
+
 end
