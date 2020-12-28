@@ -46,7 +46,6 @@ class Client < ActiveRecord::Base
 
     def self.non_grata
         self.all.select do |client|
-            binding.pry 
             client.rentals.any? { |rental| rental.returned_late? || rental.past_due? }
         end
     end
